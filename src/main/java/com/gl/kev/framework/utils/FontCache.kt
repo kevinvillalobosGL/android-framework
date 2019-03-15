@@ -9,6 +9,7 @@ class FontCache {
     companion object {
         private val fontCache = ArrayMap<String, Typeface>()
 
+        @JvmStatic
         operator fun get(fontName: String, context: Context): Typeface? {
             var tf = fontCache[fontName]
             if (tf == null) {

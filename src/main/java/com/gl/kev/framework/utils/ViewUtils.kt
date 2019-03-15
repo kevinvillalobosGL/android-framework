@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 class ViewUtils {
 
     companion object {
+        @JvmStatic
         @ColorInt
         fun getColor(context: Context?, @ColorRes colorId: Int): Int {
             return if (context != null) ContextCompat.getColor(context, colorId) else 0

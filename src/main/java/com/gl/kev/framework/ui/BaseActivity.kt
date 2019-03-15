@@ -20,8 +20,8 @@ abstract class BaseActivity<T : ViewDataBinding, M : AndroidViewModel> : AppComp
 
     protected val DEFAULT_BINDING_VARIABLE = 0
 
-    protected lateinit var mBinding: T
-    protected lateinit var mViewModel: M
+    lateinit var mBinding: T
+    lateinit var mViewModel: M
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,27 +46,9 @@ abstract class BaseActivity<T : ViewDataBinding, M : AndroidViewModel> : AppComp
      */
     protected fun initViewModel() {
         val types = (this.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments
-        if (types.size > 0) {
+        if (types.isNotEmpty()) {
             mViewModel = ViewModelProviders.of(this).get(types[if (types.size > 1) 1 else 0] as Class<M>)
         }
-    }
-
-    /**
-     * View Model Getter.
-     *
-     * @return Instance of <M>, consequent to View Model.
-     */
-    fun getViewModel(): M {
-        return mViewModel
-    }
-
-    /**
-     * Binding Getter
-     *
-     * @return Instance of <T>, as part of the Binding view.
-     */
-    fun getBinding(): T {
-        return mBinding
     }
 
     /**

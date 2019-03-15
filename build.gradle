@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
-
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -35,16 +35,25 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //Android JetPack App Compat Version
-    implementation "androidx.appcompat:appcompat:$rootProject.appcompatVersion"
+    implementation "androidx.appcompat:appcompat:$rootProject.appcompat_version"
 
     //Android Life Cycle
-    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycle_version"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycle_version"
+
+    //Room Database
+    api "androidx.room:room-runtime:$rootProject.room_version"
+    kapt "androidx.room:room-compiler:$rootProject.room_version"
 
     //RX
-    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
-    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxjavaVersion"
+    api "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroid_version"
+    api "io.reactivex.rxjava2:rxjava:$rootProject.rxjava_version"
 
+    //GSON
+    implementation "com.google.code.gson:gson:$rootProject.gson_version"
+
+
+    //Unit Testing
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
