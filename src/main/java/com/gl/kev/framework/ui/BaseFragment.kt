@@ -36,8 +36,10 @@ abstract class BaseFragment<T : ViewDataBinding, M : AndroidViewModel> : Fragmen
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
         initViews()
-        mBinding.setVariable(getBindingVariable(), mViewModel)
-        mBinding.executePendingBindings()
+        if (BaseActivity.DEFAULT_BINDING_VARIABLE != getBindingVariable()) {
+            mBinding.setVariable(getBindingVariable(), mViewModel)
+            mBinding.executePendingBindings()
+        }
     }
 
     @ColorInt
@@ -49,8 +51,9 @@ abstract class BaseFragment<T : ViewDataBinding, M : AndroidViewModel> : Fragmen
      * Gets the View Model from the View Model Providers using the <M> class argument.
      */
     private fun initViewModel() {
+        activity ?: return
         val types = (this.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments
-        mViewModel = ViewModelProviders.of(this).get(types[1] as Class<M>)
+        mViewModel = ViewModelProviders.of(activity!!).get(types[1] as Class<M>)
     }
 
     /**

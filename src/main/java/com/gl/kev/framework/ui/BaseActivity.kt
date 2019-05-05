@@ -18,7 +18,9 @@ import java.lang.reflect.ParameterizedType
 @Suppress("UNCHECKED_CAST", "unused")
 abstract class BaseActivity<T : ViewDataBinding, M : AndroidViewModel> : AppCompatActivity() {
 
-    protected val DEFAULT_BINDING_VARIABLE = 0
+    companion object {
+        const val DEFAULT_BINDING_VARIABLE = 0
+    }
 
     lateinit var mBinding: T
     lateinit var mViewModel: M
