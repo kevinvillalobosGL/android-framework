@@ -1,13 +1,18 @@
 package com.gl.kev.framework.ui
 
+import android.content.Context
+import android.content.DialogInterface
+import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProviders
+import com.gl.kev.framework.R
 import java.lang.reflect.ParameterizedType
 
 
@@ -24,6 +29,7 @@ abstract class BaseActivity<T : ViewDataBinding, M : AndroidViewModel> : AppComp
 
     lateinit var mBinding: T
     lateinit var mViewModel: M
+    var mDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,5 +79,56 @@ abstract class BaseActivity<T : ViewDataBinding, M : AndroidViewModel> : AppComp
      */
     @IdRes
     protected abstract fun getBindingVariable(): Int
+
+    //Helper Methods
+    /**
+     * Checks if there's Internet Available
+     *
+     * @return Boolean
+     */
+    fun isNetworkConnected(): Boolean {
+        val cm = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetworkInfo
+        return activeNetwork.isConnected
+    }
+
+    /**
+     * Shows an Alert Dialog with a simple String Message with no Click Listener and Ok as Button
+     *
+     * @param msg String
+     */
+    fun showGeneralAlertDialog(msg: String) {
+        showGeneralAlertDialog(msg, null)
+    }
+
+    /**
+     * Shows an Alert Dialog with a simple String Message with Click Listener and Ok as Button
+     *
+     * @param msg             String
+     * @param onClickListener Click Listener Action
+     */
+    fun showGeneralAlertDialog(msg: String, onClickListener: DialogInterface.OnClickListener?) {
+        showGeneralAlertDialog(msg, getString(android.R.string.ok), onClickListener)
+    }
+
+    /**
+     * Shows an Alert Dialog with a simple String Message with Click Listener and Custom Button Text
+     *
+     * @param msg String
+     * @param positiveString String
+     * @param onClickListener Click Listener Action
+     */
+    fun showGeneralAlertDialog(msg: String, positiveString: String, onClickListener: DialogInterface.OnClickListener?) {
+        if (mDialog == null) {
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage(msg)
+                .setTitle(R.string.app_name)
+                .setCancelable(false)
+                .setPositiveButton(positiveString, onClickListener)
+                .setOnDismissListener { mDialog = null }
+            mDialog = builder.create()
+            mDialog?.show()
+        }
+    }
 
 }

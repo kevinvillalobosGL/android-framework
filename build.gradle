@@ -39,7 +39,7 @@ dependencies {
 
     //Android Life Cycle
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycle_version"
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycle_version"
 
     //Room Database
     api "androidx.room:room-runtime:$rootProject.room_version"
